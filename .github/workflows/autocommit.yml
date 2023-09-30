@@ -1,0 +1,53 @@
+name: Auto Commit
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "0 6-8,18-20 * * *"
+
+jobs:
+  auto_commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug Branch Reference
+        run: echo "::debug::Ref = ${{ github.ref }}"
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Modify Last Update Timestamp
+        run: |
+          date > LAST_UPDATED
+      - name: Configure Git User
+        run: |
+          git config --local user.email "fiquellh@gmail.com"
+          git config --local user.name "Fiquell"
+      - name: Create Random Commit
+        run: |
+          git add -A
+          commit_message=(
+            "chore(bot): 🚀 Updated deployment"
+            "chore(bot): 📦 Released a new version"
+            "chore(bot): 🌟 Improved performance"
+            "chore(bot): 🐞 Fixed a bug"
+            "chore(bot): 🧰 Refactored codebase"
+            "chore(bot): 📖 Updated documentation"
+            "chore(bot): 🎨 Improved code style"
+            "chore(bot): ⚙️ Updated configuration"
+            "chore(bot): 🧪 Added new tests"
+            "chore(bot): 🔨 Merged feature branch"
+            "chore(bot): 🚧 Work in progress"
+            "chore(bot): ✨ Added a new feature"
+            "chore(bot): 📝 Updated comments"
+            "chore(bot): 🔥 Removed unused code"
+            "chore(bot): 👷 CI/CD pipeline changes"
+          )
+          random_message="${commit_message[$RANDOM % ${#commit_message[@]}]}"
+          git commit -m "$random_message"
+      - name: Push Changes to GitHub
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
