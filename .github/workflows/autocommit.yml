@@ -11,8 +11,6 @@ jobs:
   auto_commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug Branch Reference
-        run: echo "::debug::Ref = ${{ github.ref }}"
       - name: Checkout Repository
         uses: actions/checkout@v3
         with:
@@ -27,7 +25,6 @@ jobs:
           git config --local user.name "Fiquell"
       - name: Create Random Commit
         run: |
-          git add -A
           commit_message=(
             "chore(bot): 🚀 Updated deployment"
             "chore(bot): 📦 Released a new version"
@@ -46,6 +43,7 @@ jobs:
             "chore(bot): 👷 CI/CD pipeline changes"
           )
           random_message="${commit_message[$RANDOM % ${#commit_message[@]}]}"
+          git add -A
           git commit -m "$random_message"
       - name: Push Changes to GitHub
         uses: ad-m/github-push-action@v0.6.0
