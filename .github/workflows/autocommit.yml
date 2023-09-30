@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 0
       - name: Modify Last Update Timestamp
         run: |
-          date > LAST_UPDATED
+          date > index.txt
       - name: Configure Git User
         run: |
           git config --local user.email "fiquellh@gmail.com"
