@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 18-21 * * *" # https://crontab.guru/#0_18-21_*_*_*
+    - cron: "0 6-8,18-20 * * *"
 
 permissions:
   contents: write
