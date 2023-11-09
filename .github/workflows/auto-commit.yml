@@ -24,8 +24,8 @@ jobs:
           date > index.txt
       - name: Configure Git User
         run: |
-          git config --local user.email "fiquellh@gmail.com"
           git config --local user.name "Fiquell"
+          git config --local user.email "fiquellh@gmail.com"
       - name: Create Random Commit
         run: |
           commit_message=(
