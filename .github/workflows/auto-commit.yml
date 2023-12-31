@@ -14,7 +14,7 @@ jobs:
   auto_commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Switch branches
+      - name: Switch Branches
         uses: actions/checkout@v4
         with:
           persist-credentials: false
