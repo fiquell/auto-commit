@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 6-7,18-19 * * 1-5"
+    - cron: "0 6-8 * * 1-5"
 
 permissions:
   contents: write
@@ -14,19 +14,22 @@ jobs:
   auto_commit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Switch branches
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Modify Last Update Timestamp
+
+      - name: Update Contents
         run: |
           date > index.txt
+
       - name: Configure Git User
         run: |
           git config --local user.name "Fiquell"
           git config --local user.email "fiquellh@gmail.com"
-      - name: Create Random Commit
+
+      - name: Generate Commit Message
         run: |
           commit_message=(
             "chore(bot): 🚀 Updated deployment"
@@ -48,7 +51,9 @@ jobs:
           random_message="${commit_message[$RANDOM % ${#commit_message[@]}]}"
           git add -A
           git commit -m "$random_message"
-      - name: Push Changes to GitHub
+
+      - name: Push Changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
